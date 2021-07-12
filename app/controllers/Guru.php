@@ -78,7 +78,7 @@ class Guru extends Controller
     $data["totalRapor"] = $this->model('RaporModel')->countRapor();
 
     $this->view('templates/header');
-    $this->view('templates/headerAdmin');
+    $this->view('templates/headerGuru');
     $this->view('templates/sidebarGuru');
     $this->view('guru/dashboard', $data);
     $this->view('templates/footer');

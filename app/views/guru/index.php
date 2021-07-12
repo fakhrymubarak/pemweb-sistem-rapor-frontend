@@ -2,7 +2,6 @@
 $founded = $data['founded'];
 ?>
 
-
 <div class="main-wrapper">
   <div class="">
     <div class="row">

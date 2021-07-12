@@ -7,14 +7,19 @@
 <script src="<?= BASE_URL; ?>js/icheck/icheck.min.js"></script>
 
 <!-- ========== PAGE JS FILES ========== -->
-<script src="js/prism/prism.js"></script>
+<script src="<?= BASE_URL; ?>js/prism/prism.js"></script>
 
 <!-- ========== THEME JS ========== -->
-<script src="js/main.js"></script>
+<script src="<?= BASE_URL; ?>js/main.js"></script>
 <script>
-  $(function($) {
+  $(function() {
+    $('.counter').counterUp({
+      delay: 10,
+      time: 500
+    });
 
   });
+
   $(function() {
     $('input.flat-blue-style').iCheck({
       checkboxClass: 'icheckbox_flat-blue'
