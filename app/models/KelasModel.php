@@ -17,9 +17,11 @@ class KelasModel
     return $this->db->singleSet()['total'];
   }
 
-  public function getAllKelas()
+  public function getAllKelasWithJurusan()
   {
-    $query = "SELECT * FROM " . $this->table;
+    $query = "SELECT `id_kelas`, `jenjang_kelas`, `nama_jurusan`, `urutan_kelas`  FROM " . $this->table . " k
+    INNER JOIN `jurusan` j USING(id_jurusan)";
+
     $this->db->query($query);
     return $this->db->resultSet();
   }
