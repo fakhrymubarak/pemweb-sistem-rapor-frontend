@@ -13,7 +13,7 @@
           <span class=""></span>
         </li>
         <li>
-          <a href="dashboard.php"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
+          <a href="<?= BASE_URL; ?>dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
 
         </li>
 

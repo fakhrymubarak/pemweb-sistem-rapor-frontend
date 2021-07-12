@@ -26,8 +26,6 @@ class Guru extends Controller
     }
   }
 
-
-
   // === GURU SECTION ===
   public function index()
   {
@@ -35,25 +33,30 @@ class Guru extends Controller
     exit;
   }
 
-  public function login()
+  public function login($founded = "true")
   {
     $this->checkHasLogin();
-    // @TODO set view
+
+    $data['founded'] = $founded;
+    $this->view('templates/header');
+    $this->view('guru/index', $data);
+    $this->view('templates/footer');
   }
 
-  public function runLogout()
+  public function logout()
   {
     $this->checkHasNotLogin();
     session_unset();
     session_destroy();
+    header("Location: " . BASE_URL . "guru/login");
+    exit;
   }
 
   public function runLogin()
   {
     $this->checkHasLogin();
-
-    $username = "guru"; //USE POST HERE
-    $password = "secretGuru"; //USE POST HERE
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
     $data = $this->model('GuruModel')->loginGuru($username);
 
@@ -62,7 +65,7 @@ class Guru extends Controller
       $_SESSION["guruLogin"] = true;
       header("Location: " . BASE_URL . "guru/dashboard");
     } else {
-      header("Location: " . BASE_URL . "guru/login");
+      header("Location: " . BASE_URL . "guru/login/0");
     }
   }
 
@@ -74,9 +77,11 @@ class Guru extends Controller
     $data["totalMapel"] = $this->model('MapelModel')->countMapel();
     $data["totalRapor"] = $this->model('RaporModel')->countRapor();
 
-    var_dump($data);
-
-    // @TODO set view
+    $this->view('templates/header');
+    $this->view('templates/headerAdmin');
+    $this->view('templates/sidebarGuru');
+    $this->view('guru/dashboard', $data);
+    $this->view('templates/footer');
   }
 
 
