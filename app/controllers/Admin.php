@@ -43,10 +43,14 @@ class Admin extends Controller
   //   var_dump($data);
   // }
 
-  public function login()
+  public function login($founded = "true")
   {
     $this->checkHasLogin();
-    // @TODO set view
+
+    $data['founded'] = $founded;
+    $this->view('templates/header');
+    $this->view('admin/index', $data);
+    $this->view('templates/footer');
   }
 
   public function logout()
@@ -83,10 +87,13 @@ class Admin extends Controller
     $data["totalMapel"] = $this->model('MapelModel')->countMapel();
     $data["totalKelas"] = $this->model('KelasModel')->countKelas();
     $data["totalGuru"] = $this->model('GuruModel')->countGuru();
+    $data["totalRapor"] = $this->model('GuruModel')->countGuru();
 
-    var_dump($data);
-
-    // @TODO set view
+    $this->view('templates/header');
+    $this->view('templates/headerAdmin');
+    $this->view('templates/sidebarAdmin');
+    $this->view('admin/dashboard', $data);
+    $this->view('templates/footer');
   }
 
 
@@ -448,8 +455,91 @@ class Admin extends Controller
 
 
 
-  // === SISWA SECTION - CRUD ===
+  // === SISWA SECTION - CRUD===
+  public function siswa()
+  {
+    $this->checkHasNotLogin();
 
+    $data = $this->model('SiswaModel')->getAllSiswa();
+
+    $this->view('templates/header');
+    $this->view('templates/headerAdmin');
+    $this->view('templates/sidebarAdmin');
+    $this->view('admin/siswa', $data);
+    $this->view('templates/footer');
+  }
+
+  public function tambahSiswa($isSuccess = "")
+  {
+    $this->checkHasNotLogin();
+    $data['isSuccess'] = $isSuccess;
+    $data['kelas'] = $this->model('KelasModel')->getAllKelasWithJurusan();
+
+    $this->view('templates/header');
+    $this->view('templates/headerGuru');
+    $this->view('templates/sidebarGuru');
+    $this->view('guru/tambahSiswa', $data);
+    $this->view('templates/footer');
+  }
+
+  public function runTambahSiswa()
+  {
+    $this->checkHasNotLogin();
+    $nis = $_POST['nis'];
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $jenkel = $_POST['gender'];
+    $idKelas = $_POST['kelas'];
+    $isActive = $_POST['isActive'];
+
+    $data = $this->model('SiswaModel')->insertSiswa($nis, $nama, $email, $jenkel, $idKelas, $isActive);
+
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "guru/tambahSiswa/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "guru/tambahSiswa/false");
+      exit;
+    }
+    // @TODO direct to spesific view
+  }
+
+  public function updateSiswa($idSiswa)
+  {
+    $this->checkHasNotLogin();
+
+    $data = $this->model('SiswaModel')->getSiswaById($idSiswa);
+    var_dump($data);
+    // @TODO set view
+  }
+
+  public function runUpdateSiswa($nis)
+  {
+    $this->checkHasNotLogin();
+
+    // @TODO set post
+    $nama = $_POST[''];
+    $email = $_POST[''];
+    $jenkel = $_POST[''];
+    $idKelas = $_POST[''];
+    $isActive = $_POST[''];
+
+    $data = $this->model('SiswaModel')->updateSiswa($nis, $nama, $email, $jenkel, $idKelas, $isActive);
+    var_dump($data);
+
+    // @TODO direct to spesific view
+  }
+
+  public function runDeleteSiswa($nis)
+  {
+    $this->checkHasNotLogin();
+
+    $data = $this->model('SiswaModel')->deleteSiswa($nis);
+    var_dump($data);
+    die;
+
+    // @TODO direct to spesific view
+  }
 
   // === RESULT SECTION ===
 
