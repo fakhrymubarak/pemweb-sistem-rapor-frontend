@@ -14,7 +14,7 @@ $counter = $data;
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-          <a class="dashboard-stat bg-primary" href="manage-students.php">
+          <a class="dashboard-stat bg-primary" href="<?= BASE_URL; ?>guru/siswa">
             <span class="number counter"><?= $counter['totalSiswa']; ?></span>
             <span class="name">Siswa Terdaftar</span>
             <span class="bg-icon"><i class="fa fa-users"></i></span>
@@ -22,7 +22,7 @@ $counter = $data;
         </div>
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-          <a class="dashboard-stat bg-danger" href="manage-subjects.php">
+          <a class="dashboard-stat bg-danger" href="<?= BASE_URL; ?>guru/mapel">
             <span class="number counter"><?= $counter['totalMapel']; ?></span>
             <span class="name">Mata Pelajaran</span>
             <span class="bg-icon"><i class="fa fa-ticket"></i></span>
@@ -32,7 +32,7 @@ $counter = $data;
         <!-- /.col-lg-3 col-md-3 col-sm-6 col-xs-12 -->
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-          <a class="dashboard-stat bg-success" href="manage-results.php">
+          <a class="dashboard-stat bg-success" href="<?= BASE_URL; ?>guru/rapor">
             <span class="number counter"><?= $counter['totalRapor']; ?></span>
             <span class="name">Hasil Raport</span>
             <span class="bg-icon"><i class="fa fa-file-text"></i></span>

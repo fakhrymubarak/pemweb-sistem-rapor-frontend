@@ -4,7 +4,7 @@
       <div class="sidebar-content">
         <div class="user-info">
           <img src="http://placehold.it/90/c2c2c2?text=Admin" class="img-circle profile-img">
-          <h6 class="title">Administrator</h6>
+          <h6 class="title"><?= $_SESSION['usernameGuru']; ?></h6>
           <!-- <small class="info">SMA Negeri 1 Indonesia</small> -->
         </div>
 
@@ -13,7 +13,6 @@
             <li>
               <a href="<?= BASE_URL; ?>guru/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
             </li>
-
 
             <li class="has-children">
               <a href=""><i class="fa fa-users"></i> <span>Siswa</span> <i class="fa fa-angle-right arrow"></i></a>

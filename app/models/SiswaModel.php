@@ -79,4 +79,31 @@ class SiswaModel
     $this->db->bind('nis', $nis);
     return $this->db->rowCount();
   }
+
+
+
+  // RELATIONAL QUERY WITH GURU
+  public function getAllSiswaWithTeacher($usernameGuru)
+  {
+    $query = "SELECT * FROM " . $this->table . "
+    INNER JOIN `kelas` k USING(`id_kelas`)
+    INNER JOIN `guru` g ON k.`wali_kelas`=g.`id_guru`
+    INNER JOIN `jurusan` USING(`id_jurusan`)
+    WHERE `username`=:username;";
+
+    $this->db->query($query);
+    $this->db->bind('username', $usernameGuru);
+    return $this->db->resultSet();
+  }
+
+  public function countSiswaBasedGuru($usernameGuru)
+  {
+    $query = "SELECT COUNT(*) AS 'total' FROM " . $this->table . "
+    INNER JOIN `kelas` k USING(`id_kelas`)
+    INNER JOIN `guru` g ON k.`wali_kelas`=g.`id_guru`
+    WHERE `username`=:username;";
+    $this->db->query($query);
+    $this->db->bind('username', $usernameGuru);
+    return $this->db->singleSet()['total'];
+  }
 }

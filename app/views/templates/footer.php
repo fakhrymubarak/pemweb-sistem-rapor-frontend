@@ -26,6 +26,16 @@
     });
   });
 
+  $(function($) {
+    $(".js-states").select2();
+    $(".js-states-limit").select2({
+      maximumSelectionLength: 2
+    });
+    $(".js-states-hide").select2({
+      minimumResultsForSearch: Infinity
+    });
+  });
+
   function CallPrint(strid) {
     var prtContent = document.getElementById("printed");
     var WinPrint = window.open('', '', 'left=0,top=0,width=1000,height=1400,toolbar=0,scrollbars=0,status=0');

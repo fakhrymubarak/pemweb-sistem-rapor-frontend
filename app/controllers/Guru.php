@@ -63,6 +63,7 @@ class Guru extends Controller
     // set session and direct to spesific view.
     if ($data == true && password_verify($password, $data['password'])) {
       $_SESSION["guruLogin"] = true;
+      $_SESSION["usernameGuru"] = $data['username'];
       header("Location: " . BASE_URL . "guru/dashboard");
     } else {
       header("Location: " . BASE_URL . "guru/login/0");
@@ -73,9 +74,9 @@ class Guru extends Controller
   {
     $this->checkHasNotLogin();
 
-    $data["totalSiswa"] = $this->model('SiswaModel')->countSiswa();
+    $data["totalSiswa"] = $this->model('SiswaModel')->countSiswaBasedGuru($_SESSION["usernameGuru"]);
     $data["totalMapel"] = $this->model('MapelModel')->countMapel();
-    $data["totalRapor"] = $this->model('RaporModel')->countRapor();
+    $data["totalRapor"] = $this->model('RaporModel')->countRaporBasedGuru($_SESSION["usernameGuru"]);
 
     $this->view('templates/header');
     $this->view('templates/headerGuru');
@@ -157,34 +158,47 @@ class Guru extends Controller
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('SiswaModel')->getAllSiswa();
-    var_dump($data);
+    $data = $this->model('SiswaModel')->getAllSiswaWithTeacher($_SESSION["usernameGuru"]);
 
-    // @TODO set view
+    $this->view('templates/header');
+    $this->view('templates/headerGuru');
+    $this->view('templates/sidebarGuru');
+    $this->view('guru/siswa', $data);
+    $this->view('templates/footer');
   }
 
-  public function tambahSiswa()
+  public function tambahSiswa($isSuccess = "")
   {
     $this->checkHasNotLogin();
+    $data['isSuccess'] = $isSuccess;
+    $data['kelas'] = $this->model('KelasModel')->getAllKelasWithJurusan();
 
-    // @TODO set view
+    $this->view('templates/header');
+    $this->view('templates/headerGuru');
+    $this->view('templates/sidebarGuru');
+    $this->view('guru/tambahSiswa', $data);
+    $this->view('templates/footer');
   }
 
   public function runTambahSiswa()
   {
     $this->checkHasNotLogin();
-
-    // @TODO set post
-    $nis = $_POST[''];
-    $nama = $_POST[''];
-    $email = $_POST[''];
-    $jenkel = $_POST[''];
-    $idKelas = $_POST[''];
-    $isActive = $_POST[''];
+    $nis = $_POST['nis'];
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $jenkel = $_POST['gender'];
+    $idKelas = $_POST['kelas'];
+    $isActive = $_POST['isActive'];
 
     $data = $this->model('SiswaModel')->insertSiswa($nis, $nama, $email, $jenkel, $idKelas, $isActive);
-    var_dump($data);
 
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "guru/tambahSiswa/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "guru/tambahSiswa/false");
+      exit;
+    }
     // @TODO direct to spesific view
   }
 
