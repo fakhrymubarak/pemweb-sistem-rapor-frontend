@@ -19,7 +19,7 @@ class Siswa extends Controller
     $data['kelas'] = $this->model('KelasModel')->getAllKelasWithJurusan();
     $data['founded'] = $founded;
     $this->view('templates/header');
-    $this->view('templates/headerTopLogin');
+    $this->view('templates/headerStudent');
     $this->view('siswa/index', $data);
     $this->view('templates/footer');
   }

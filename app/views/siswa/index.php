@@ -3,10 +3,9 @@ $listKelas = $data['kelas'];
 $founded = $data['founded'];
 ?>
 
-<div class="container main-wrapper -" align="center">
+<div class="container main-wrapper mt-50" align="center">
   <h1>Sistem Informasi Akademik Sekolah</h1>
-  <div class="panel-body p-20">
-
+  <div class="panel-body p-20 mt-50">
     <form action="<?= BASE_URL; ?>siswa/runLoginRapor" method="post">
       <div class="form-group">
         <label for="nis">Masukkan Nomor Induk Siswa</label>
@@ -43,7 +42,5 @@ $founded = $data['founded'];
         </div>
       </div>
     </form>
-
-    <hr>
   </div>
 </div>
