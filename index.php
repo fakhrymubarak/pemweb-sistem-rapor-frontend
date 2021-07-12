@@ -18,7 +18,7 @@ include('includes/config.php'); ?>
 </head>
 
 <body>
-    <?php include('includes/index_top.php'); ?>
+    <?php include('includes/index_topbar.php'); ?>
 
     <div class="main-wrapper" align="center">
         <h1>Sistem Informasi Akademik Sekolah</h1>
