@@ -9,13 +9,8 @@ class Siswa extends Controller
 
   public function index()
   {
-    $this->view('templates/headerPerusahaan');
-    $this->view("perusahaan/index");
+    $this->view('templates/headerLogin');
+    $this->view('siswa/index');
     $this->view('templates/footer');
-  }
-
-  private function hasLoginSession()
-  {
-    return isset($_SESSION["perushLogin"]);
   }
 }
