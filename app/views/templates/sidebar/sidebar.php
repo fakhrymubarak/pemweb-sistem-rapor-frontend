@@ -7,7 +7,7 @@ $controller = $data;
     <div class="left-sidebar bg-black-300 box-shadow ">
       <div class="sidebar-content">
         <div class="user-info">
-          <img src="http://placehold.it/90/c2c2c2?text=Admin" class="img-circle profile-img">
+          <img src="<?= BASE_URL; ?>assets/admin.png" class="img-circle profile-img" height="105">
           <h6 class="title">Super Admin</h6>
         </div>
         <!-- /.user-info -->

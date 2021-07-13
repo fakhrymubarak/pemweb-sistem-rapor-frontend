@@ -29,7 +29,7 @@ class Siswa extends Controller
     $nis = $_POST['nis'];
     $idKelas = $_POST['idKelas'];
 
-    $data = $this->model('RaporModel')->getRaporById($nis);
+    $data = $this->model('RaporModel')->getRaporByNis($nis);
     if ($data == true && $data[0]['id_kelas'] == $idKelas) {
       header("Location: " . BASE_URL . "siswa/rapor/" . $nis . "/" . $idKelas);
       exit;
@@ -45,11 +45,12 @@ class Siswa extends Controller
       header("Location: " . BASE_URL . "siswa/login");
       exit;
     } else {
+      $data["controller"] = "siswa";
       $data["siswa"] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($nis);
       $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNis($nis);
 
       $this->view('templates/header/header');
-      $this->view('templates/header/headerStudent');
+      $this->view('templates/header/headerRapor', $data["controller"]);
       $this->view('siswa/rapor', $data);
       $this->view('templates/footer/footer');
     }

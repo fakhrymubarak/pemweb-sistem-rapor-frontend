@@ -1,6 +1,7 @@
 <?php
 $siswa = $data['siswa'];
 $listRapor = $data['listRapor'];
+$controller = $data['controller'];
 
 ?>
 
@@ -89,13 +90,12 @@ $listRapor = $data['listRapor'];
                     </tr>
 
                   <?php $i++;
-                    $maxNilai = $i * 100;
-                    $percentage = $totalNilai / $maxNilai * 100;
+                    $percentage = $totalNilai / ($i - 1);
                   } ?>
 
                   <tr>
                     <th scope="row" colspan="2" style="text-align: center">Total Nilai</th>
-                    <td style="text-align: center"><b><?= $totalNilai . "/" . $maxNilai; ?></b></td>
+                    <td style="text-align: center"><b><?= $totalNilai . "/" . ($i - 1) * 100; ?></b></td>
                   </tr>
 
                   <tr>
@@ -117,7 +117,15 @@ $listRapor = $data['listRapor'];
 
 
         <div class="col-sm-6">
-          <a href="<?= BASE_URL; ?>siswa\index">Back to Home</a>
+          <?php if ($controller == "admin") { ?>
+            <a href="<?= BASE_URL; ?>admin\rapor">Back to List Rapor</a>
+          <?php } elseif ($controller == "guru") { ?>
+            <a href="<?= BASE_URL; ?>guru\rapor">Back to List Rapor</a>
+          <?php } elseif ($controller == "siswa") { ?>
+            <a href="<?= BASE_URL; ?>siswa\index">Back to Home</a>
+          <?php }  ?>
+
+
         </div>
 
       </div>

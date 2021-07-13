@@ -641,5 +641,120 @@ class Admin extends Controller
   }
 
   // === RESULT SECTION ===
+  public function rapor($status = "")
+  {
+    $this->checkHasNotLogin();
 
+    $data['listRapor'] = $this->model('RaporModel')->getAllFullRaporSiswa();
+    $data['status'] = $status;
+
+    $this->callHeader();
+    $this->view('admin/rapor/daftarRapor', $data);
+    $this->view('templates/footer/footer');
+  }
+
+  public function detailRapor($nis = "", $idKelas)
+  {
+    $this->checkHasNotLogin();
+    if ($nis == "" || $idKelas == "") {
+      header("Location: " . BASE_URL . "admin/rapor");
+      exit;
+    } else {
+      $data["siswa"] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($nis);
+      $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNis($nis);
+      $data["controller"] = "admin";
+
+      $this->view('templates/header/header');
+      $this->view('templates/header/headerRapor', $data["controller"]);
+      $this->view('siswa/rapor', $data);
+      $this->view('templates/footer/footer');
+    }
+  }
+
+  public function tambahRapor($isSuccess = "")
+  {
+    $this->checkHasNotLogin();
+
+    $this->callHeader();
+    $data['listMapel'] = $this->model('MapelModel')->getAllMapelWithJurusan();
+    $data['listPeriode'] = $this->model('PeriodeModel')->getAllPeriode();
+    $data['success'] = $isSuccess;
+
+    $this->view('admin/rapor/tambahRapor', $data);
+    $this->view('templates/footer/footer');
+  }
+
+  public function runTambahRapor()
+  {
+    $this->checkHasNotLogin();
+
+    var_dump($_POST);
+    $nis = $_POST['nis'];
+    $idMapel = $_POST['mapel'];
+    $nilai = $_POST['nilai'];
+    $periodeNilai = $_POST['periode'];;
+
+    $data = $this->model('RaporModel')->insertRapor($nis, $idMapel, $nilai, $periodeNilai);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/tambahRapor/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/tambahRapor/false");
+      exit;
+    }
+  }
+
+  public function updateRapor($nis, $isSuccess = "")
+  {
+    $this->checkHasNotLogin();
+
+    $data["controller"] = "admin";
+    $data["isSuccess"] = $isSuccess;
+    $data["siswa"] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($nis);
+    $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNis($nis);
+
+    $this->callHeader();
+    $this->view('admin/rapor/updateRapor', $data);
+    $this->view('templates/footer/footer');
+  }
+
+  public function runUpdateNilai()
+  {
+    $this->checkHasNotLogin();
+
+    var_dump($_POST);
+    $submit = $_POST['submit'];
+    $idRapor = $_POST['id' . $submit];
+    $nilai = $_POST['nilai' . $submit];
+    $nis = $_POST['nis'];
+    $data = $this->model('RaporModel')->updateRaporNilai($idRapor, $nilai);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/updateRapor/" . $nis . "/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/updateRapor/" . $nis . "/false");
+      exit;
+    }
+
+    $this->callHeader();
+    $this->view('admin/rapor/updateRapor', $data);
+    $this->view('templates/footer/footer');
+  }
+
+
+  public function runDeleteNilai($idRapor)
+  {
+    $this->checkHasNotLogin();
+
+    $nis = $this->model('RaporModel')->getRaporById($idRapor)['nis'];
+
+    $data = $this->model('RaporModel')->deleteRapor($idRapor);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/updateRapor/" . $nis . "/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/updateRapor/" . $nis . "/false");
+      exit;
+    }
+  }
 }
