@@ -16,7 +16,6 @@
             </li>
             <li>
               <a href="<?= BASE_URL; ?>admin/dashboard"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
-
             </li>
 
             <li class="nav-header">
@@ -24,54 +23,60 @@
             <li class="has-children">
               <a href="#"><i class="fa fa-file-text"></i> <span>Daftar Kelas</span> <i class="fa fa-angle-right arrow"></i></a>
               <ul class="child-nav">
-                <li><a href="add-class.php"><i class="fa fa-bars"></i> <span>Buat Kelas Baru</span></a></li>
-                <li><a href="manage-classes.php"><i class="fa fa fa-server"></i> <span>Kelola Kelas</span></a></li>
+                <li><a href="<?= BASE_URL; ?>admin/tambahKelas"><i class="fa fa-bars"></i> <span>Buat Kelas Baru</span></a></li>
+                <li><a href="<?= BASE_URL; ?>admin/buatKelas"><i class="fa fa fa-server"></i> <span>Kelola Kelas</span></a></li>
 
               </ul>
             </li>
             <li class="has-children">
               <a href="#"><i class="fa fa-file-text"></i> <span>Mata Pelajaran</span> <i class="fa fa-angle-right arrow"></i></a>
               <ul class="child-nav">
-                <li><a href="add-subject.php"><i class="fa fa-bars"></i> <span>Buat Mapel Baru</span></a></li>
-                <li><a href="manage-subjects.php"><i class="fa fa fa-server"></i> <span>Kelola Mapel</span></a></li>
-                <li><a href="add-subjectcombination.php"><i class="fa fa-newspaper-o"></i> <span>Tambah Mapel Lintas Minat</span></a></li>
-                <a href="manage-subjectcombination.php"><i class="fa fa-newspaper-o"></i> <span>Kelola Mapel Lintas Minat</span></a>
+                <li><a href="<?= BASE_URL; ?>admin/tambahMapel"><i class="fa fa-bars"></i> <span>Buat Mapel Baru</span></a></li>
+                <li><a href="<?= BASE_URL; ?>admin/mapel"><i class="fa fa fa-server"></i> <span>Kelola Mapel</span></a></li>
             </li>
           </ul>
           </li>
           <li class="has-children">
             <a href="#"><i class="fa fa-users"></i> <span>Siswa</span> <i class="fa fa-angle-right arrow"></i></a>
             <ul class="child-nav">
-              <li><a href="add-students.php"><i class="fa fa-bars"></i> <span>Tambah Data Siswa</span></a></li>
-              <li><a href="manage-students.php"><i class="fa fa fa-server"></i> <span>Kelola Data Siswa</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/tambahSiswa"><i class="fa fa-bars"></i> <span>Tambah Data Siswa</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/siswa"><i class="fa fa fa-server"></i> <span>Kelola Data Siswa</span></a></li>
 
             </ul>
           </li>
           <li class="has-children">
             <a href="#"><i class="fa fa-users"></i> <span>Tenaga Pendidik</span> <i class="fa fa-angle-right arrow"></i></a>
             <ul class="child-nav">
-              <li><a href="add-teachers.php"><i class="fa fa-bars"></i> <span>Tambahkan Guru</span></a></li>
-              <li><a href="manage-teachers.php"><i class="fa fa fa-server"></i> <span>Kelola Guru</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/tambahGuru"><i class="fa fa-bars"></i> <span>Tambahkan Guru</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/guru"><i class="fa fa fa-server"></i> <span>Kelola Guru</span></a></li>
 
             </ul>
           </li>
           <li class="has-children">
             <a href="#"><i class="fa fa-graduation-cap"></i> <span>Hasil Belajar</span> <i class="fa fa-angle-right arrow"></i></a>
             <ul class="child-nav">
-              <li><a href="add-result.php"><i class="fa fa-bars"></i> <span>Tambah Hasil Belajar</span></a></li>
-              <li><a href="manage-results.php"><i class="fa fa fa-server"></i> <span>Kelola Hasil Belajar</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/tambahRapor"><i class="fa fa-bars"></i> <span>Tambah Hasil Belajar</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/rapor"><i class="fa fa fa-server"></i> <span>Kelola Hasil Belajar</span></a></li>
 
             </ul>
           </li>
           <li class="has-children">
             <a href="#"><i class="fa fa-clock-o"></i> <span>Periode</span> <i class="fa fa-angle-right arrow"></i></a>
             <ul class="child-nav">
-              <li><a href="add-periode.php"><i class="fa fa-bars"></i> <span>Buat Periode Baru</span></a></li>
-              <li><a href="manage-periode.php"><i class="fa fa fa-server"></i> <span>Kelola Periode Belajar</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/tambahPeriode"><i class="fa fa-bars"></i> <span>Buat Periode Baru</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/periode"><i class="fa fa fa-server"></i> <span>Kelola Periode Belajar</span></a></li>
 
             </ul>
           </li>
-          <li><a href="change-password.php"><i class="fa fa fa-server "></i> <span> Ganti Password</span></a></li>
+
+          <li class="has-children">
+            <a href="#"><i class="fa fa-clock-o"></i> <span>Jurusan</span> <i class="fa fa-angle-right arrow"></i></a>
+            <ul class="child-nav">
+              <li><a href="<?= BASE_URL; ?>admin/tambahJurusan"><i class="fa fa-bars"></i> <span>Buat Jurusan Baru</span></a></li>
+              <li><a href="<?= BASE_URL; ?>admin/jurusan"><i class="fa fa fa-server"></i> <span>Kelola Jurusan Belajar</span></a></li>
+            </ul>
+          </li>
+          <li><a href="<?= BASE_URL; ?>admin/gantiPassword"><i class="fa fa fa-server "></i> <span> Ganti Password</span></a></li>
 
           </li>
         </div>

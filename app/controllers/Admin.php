@@ -26,6 +26,14 @@ class Admin extends Controller
     }
   }
 
+  protected function callHeader()
+  {
+    $data['controller'] = "admin";
+    $this->view('templates/header/header');
+    $this->view('templates/header/headerAdmin');
+    $this->view('templates/sidebar/sidebarAdmin', $data['controller']);
+  }
+
 
 
   // === ADMIN SECTION ===
@@ -48,9 +56,9 @@ class Admin extends Controller
     $this->checkHasLogin();
 
     $data['founded'] = $founded;
-    $this->view('templates/header');
+    $this->view('templates/header/header');
     $this->view('admin/index', $data);
-    $this->view('templates/footer');
+    $this->view('templates/footer/footer');
   }
 
   public function logout()
@@ -89,45 +97,51 @@ class Admin extends Controller
     $data["totalGuru"] = $this->model('GuruModel')->countGuru();
     $data["totalRapor"] = $this->model('GuruModel')->countGuru();
 
-    $this->view('templates/header');
-    $this->view('templates/headerAdmin');
-    $this->view('templates/sidebarAdmin');
-    $this->view('admin/dashboard', $data);
-    $this->view('templates/footer');
+    $this->callHeader();
+    $this->view('admin/dashboard/dashboard', $data);
+    $this->view('templates/footer/footer');
   }
 
 
 
   // === PERIODE SECTION - CRUD ===
-  public function periode()
+  public function periode($status = "")
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('PeriodeModel')->getAllPeriode();
-    var_dump($data);
+    $data['status'] = $status;
+    $data['listPeriode'] = $this->model('PeriodeModel')->getAllPeriode();
 
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/periode/periode', $data);
+    $this->view('templates/footer/footer');
   }
 
-  public function tambahPeriode()
+  public function tambahPeriode($isSuccess = "")
   {
     $this->checkHasNotLogin();
 
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/periode/tambahPeriode', $isSuccess);
+    $this->view('templates/footer/footer');
   }
 
   public function runTambahPeriode()
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $tahunAjar = $_POST[''];
-    $semester = $_POST[''];
+    $tahunAjar = $_POST['periode'];
+    $semester = $_POST['semester'];
 
     $data = $this->model('PeriodeModel')->insertPeriode($tahunAjar, $semester);
-    var_dump($data);
 
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/tambahPeriode/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/tambahPeriode/false");
+      exit;
+    }
   }
 
   public function updatePeriode($idPeriode)
@@ -135,22 +149,27 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('PeriodeModel')->getPeriodeById($idPeriode);
-    var_dump($data);
-    // @TODO set view
+
+    $this->callHeader();
+    $this->view('admin/periode/updatePeriode', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runUpdatePeriode($idPeriode)
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $tahunAjar = $_POST[''];
-    $semester = $_POST[''];
+    $tahunAjar = $_POST['periode'];
+    $semester = $_POST['semester'];
 
     $data = $this->model('PeriodeModel')->updatePeriode($idPeriode, $tahunAjar, $semester);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/periode/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/periode/failed");
+      exit;
+    }
   }
 
   public function runDeletePeriode($idPeriode)
@@ -158,10 +177,13 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('PeriodeModel')->deletePeriode($idPeriode);
-    var_dump($data);
-    die;
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/periode/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/periode/failed");
+      exit;
+    }
   }
 
 
