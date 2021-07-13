@@ -35,4 +35,16 @@ class AdminModel
     $this->db->bind('pass', $password);
     return $this->db->rowCount();
   }
+
+  public function updatePassword($username, $password)
+  {
+    $query = "UPDATE " . $this->table . "
+    SET `password`=:pass
+    WHERE `username`=:username;";
+
+    $this->db->query($query);
+    $this->db->bind('username', $username);
+    $this->db->bind('pass', $password);
+    return $this->db->rowCount();
+  }
 }

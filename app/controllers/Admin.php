@@ -43,13 +43,13 @@ class Admin extends Controller
     exit;
   }
 
-  // public function runRegister()
-  // {
-  //   $username = "admin";
-  //   $password = password_hash("secret", PASSWORD_DEFAULT);
-  //   $data = $this->model('AdminModel')->registerAdmin($username, $password);
-  //   var_dump($data);
-  // }
+  public function runRegister()
+  {
+    $username = "admin";
+    $password = password_hash("secret", PASSWORD_DEFAULT);
+    $data = $this->model('AdminModel')->registerAdmin($username, $password);
+    var_dump($data);
+  }
 
   public function login($founded = "true")
   {
@@ -74,18 +74,16 @@ class Admin extends Controller
   {
     $this->checkHasLogin();
 
-    $username = "admin"; //USE POST HERE
-    $password = "secret"; //USE POST HERE
+    $username = $_POST['username'];
+    $password = $_POST['password'];
 
-    var_dump($password);
     $data = $this->model('AdminModel')->loginAdmin($username);
-
-    // set session and direct to spesific view.
     if ($data == true && password_verify($password, $data['password'])) {
       $_SESSION["adminLogin"] = true;
+      $_SESSION["username"] = $username;
       header("Location: " . BASE_URL . "admin/dashboard");
     } else {
-      header("Location: " . BASE_URL . "admin/login");
+      header("Location: " . BASE_URL . "admin/login/0");
     }
   }
 
@@ -102,6 +100,41 @@ class Admin extends Controller
     $this->callHeader();
     $this->view('admin/dashboard/dashboard', $data);
     $this->view('templates/footer/footer');
+  }
+
+  public function gantiPassword($isSuccess = "")
+  {
+    $this->checkHasNotLogin();
+
+    $this->callHeader();
+    $this->view('admin/dashboard/gantiPassword', $isSuccess);
+    $this->view('templates/footer/footer');
+  }
+
+  public function runGantiPassword()
+  {
+    $this->checkHasNotLogin();
+
+    $username = $_SESSION['username'];
+    $oldPassword = $_POST['oldPassword'];
+    $newPassword = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+
+    $data['oldPass'] = $this->model('AdminModel')->loginAdmin($username);
+
+    if ($data['oldPass'] == true && password_verify($oldPassword, $data['oldPass']['password'])) {
+
+      $data['updatePass'] = $this->model('AdminModel')->updatePassword($username, $newPassword);
+      if ($data['updatePass'] == 1) {
+        header("Location: " . BASE_URL . "admin/gantiPassword/true");
+        exit;
+      } else {
+        header("Location: " . BASE_URL . "admin/gantiPassword/false");
+        exit;
+      }
+    } else {
+      header("Location: " . BASE_URL . "admin/gantiPassword/false");
+      exit;
+    }
   }
 
 
