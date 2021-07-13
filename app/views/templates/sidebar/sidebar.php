@@ -46,16 +46,16 @@ $controller = $data;
               </ul>
             </li>
 
-            <!-- GURU -->
-            <li class="has-children">
-              <a href="#"><i class="fa fa-users"></i> <span>Tenaga Pendidik</span> <i class="fa fa-angle-right arrow"></i></a>
-              <ul class="child-nav">
-                <li><a href="<?= BASE_URL . $controller; ?>/tambahGuru"><i class="fa fa-bars"></i> <span>Tambahkan Guru</span></a></li>
-                <li><a href="<?= BASE_URL . $controller; ?>/guru"><i class="fa fa fa-server"></i> <span>Kelola Guru</span></a></li>
-              </ul>
-            </li>
-
             <?php if ($controller != "guru") { ?>
+              <!-- GURU -->
+              <li class="has-children">
+                <a href="#"><i class="fa fa-users"></i> <span>Tenaga Pendidik</span> <i class="fa fa-angle-right arrow"></i></a>
+                <ul class="child-nav">
+                  <li><a href="<?= BASE_URL . $controller; ?>/tambahGuru"><i class="fa fa-bars"></i> <span>Tambahkan Guru</span></a></li>
+                  <li><a href="<?= BASE_URL . $controller; ?>/guru"><i class="fa fa fa-server"></i> <span>Kelola Guru</span></a></li>
+                </ul>
+              </li>
+
               <!-- KELAS -->
               <li class="has-children">
                 <a href="#"><i class="fa fa-file-text"></i> <span>Daftar Kelas</span> <i class="fa fa-angle-right arrow"></i></a>

@@ -1,22 +1,21 @@
 <?php
-$success = $data['success'];
+$mapel = $data['mapel'];
 $listJurusan = $data['listJurusan'];
-
 
 ?>
 <div class="main-page">
   <div class="container-fluid">
     <div class="row page-title-div">
       <div class="col-md-6">
-        <h2 class="title">Tambah Mata Pelajaran</h2>
+        <h2 class="title">Update Mata Pelajaran</h2>
       </div>
     </div>
 
     <div class="row breadcrumb-div">
       <div class="col-md-6">
         <ul class="breadcrumb">
-          <li><a href="<?= BASE_URL; ?>admin/dashboard"><i class="fa fa-home"></i> Home</a></li>
-          <li class="active">Tambah Mata Pelajaran</li>
+          <li><a href="<?= BASE_URL; ?>guru/dashboard"><i class="fa fa-home"></i> Home</a></li>
+          <li class="active">Update Mata Pelajaran</li>
         </ul>
       </div>
 
@@ -31,33 +30,18 @@ $listJurusan = $data['listJurusan'];
           <div class="panel">
             <div class="panel-heading">
               <div class="panel-title">
-                <h5>Tambah Mata Pelajaran</h5>
+                <h5>Update Mata Pelajaran</h5>
               </div>
             </div>
 
             <div class="panel-body">
-
-              <?php if ($success == "true") { ?>
-                <div class="alert alert-success left-icon-alert" role="alert">
-                  <strong>Berhasil</strong>
-                </div>
-
-              <?php } else if ($success == "false") { ?>
-
-                <div class="alert alert-danger left-icon-alert" role="alert">
-                  <strong>Error</strong>
-                </div>
-              <?php } ?>
-
-
-              <form class="form-horizontal" method="post" action="<?= BASE_URL; ?>admin/runTambahMapel">
+              <form class="form-horizontal" method="post" action="<?= BASE_URL; ?>guru/runUpdateMapel\<?= $mapel['id_mapel']; ?>">
                 <div class="form-group">
                   <label for="mapel" class="col-sm-2 control-label">Mata Pelajaran:</label>
                   <div class="col-sm-10">
-                    <input type="text" name="mapel" class="form-control" id="mapel" placeholder="Nama Mata Pelajaran" required>
+                    <input type="text" name="mapel" class="form-control" id="mapel" value="<?= $mapel['nama_mapel']; ?>" required>
                   </div>
                 </div>
-
 
                 <div class="form-group">
                   <label for="jurusan" class="col-sm-2 control-label">Jurusan</label>
@@ -65,7 +49,14 @@ $listJurusan = $data['listJurusan'];
                     <select name="jurusan" class="form-control" id="jurusan" required>
                       <option value="">Pilih jurusan</option>
 
-                      <?php foreach ($listJurusan as $jurusan) { ?>
+                      <?php foreach ($listJurusan as $jurusan) {
+                        if ($jurusan['id_jurusan'] == $mapel['id_jurusan']) { ?>
+                          <option value="<?= $jurusan['id_jurusan']; ?> " selected>
+                            <?= $jurusan['nama_jurusan']; ?>
+                          </option>
+                        <?php
+                          continue;
+                        } ?>
                         <option value="<?= $jurusan['id_jurusan']; ?>">
                           <?= $jurusan['nama_jurusan']; ?>
                         </option>
@@ -74,17 +65,15 @@ $listJurusan = $data['listJurusan'];
                   </div>
                 </div>
 
-
                 <div class="form-group">
                   <div class="col-sm-10">
                     <input type="radio" value="0" hidden>
                   </div>
                 </div>
 
-
                 <div class="form-group">
                   <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-primary">Buat</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                   </div>
                 </div>
               </form>

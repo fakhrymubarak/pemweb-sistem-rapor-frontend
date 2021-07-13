@@ -15,7 +15,7 @@ $listJurusan = $data['listJurusan'];
     <div class="row breadcrumb-div">
       <div class="col-md-6">
         <ul class="breadcrumb">
-          <li><a href="<?= BASE_URL; ?>admin/dashboard"><i class="fa fa-home"></i> Home</a></li>
+          <li><a href="<?= BASE_URL; ?>guru/dashboard"><i class="fa fa-home"></i> Home</a></li>
           <li class="active">Tambah Mata Pelajaran</li>
         </ul>
       </div>
@@ -50,7 +50,7 @@ $listJurusan = $data['listJurusan'];
               <?php } ?>
 
 
-              <form class="form-horizontal" method="post" action="<?= BASE_URL; ?>admin/runTambahMapel">
+              <form class="form-horizontal" method="post" action="<?= BASE_URL; ?>guru/runTambahMapel">
                 <div class="form-group">
                   <label for="mapel" class="col-sm-2 control-label">Mata Pelajaran:</label>
                   <div class="col-sm-10">

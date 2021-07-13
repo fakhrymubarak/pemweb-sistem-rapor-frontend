@@ -187,5 +187,91 @@ class Guru extends Controller
     }
   }
 
-  // === RAPOR SECTION - CRUD===
+
+
+
+  // === MAPEL SECTION - CRUD ===
+  public function mapel($status = "")
+  {
+    $this->checkHasNotLogin();
+
+    $data['listMapel'] = $this->model('MapelModel')->getAllMapelWithJurusan();
+    $data['status'] = $status;
+
+    $this->callHeader();
+    $this->view('guru/mapel/mapel', $data);
+    $this->view('templates/footer/footer');
+  }
+
+  public function tambahMapel($isSuccess = "")
+  {
+    $this->checkHasNotLogin();
+
+    $this->callHeader();
+    $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
+    $data['success'] = $isSuccess;
+
+    $this->view('guru/mapel/tambahMapel', $data);
+    $this->view('templates/footer/footer');
+  }
+
+  public function runTambahMapel()
+  {
+    $this->checkHasNotLogin();
+
+    $mapel = $_POST['mapel'];
+    $jurusan = $_POST['jurusan'];
+
+    $data = $this->model('MapelModel')->insertMapel($mapel, $jurusan);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "guru/tambahMapel/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "guru/tambahMapel/false");
+      exit;
+    }
+  }
+
+  public function updateMapel($idMapel)
+  {
+    $this->checkHasNotLogin();
+
+    $data['mapel'] = $this->model('MapelModel')->getMapelById($idMapel);
+    $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
+
+    $this->callHeader();
+    $this->view('guru/mapel/updateMapel', $data);
+    $this->view('templates/footer/footer');
+  }
+
+  public function runUpdateMapel($idMapel)
+  {
+    $this->checkHasNotLogin();
+
+    $mapel = $_POST['mapel'];
+    $jurusan = $_POST['jurusan'];
+
+    $data = $this->model('MapelModel')->updateMapel($idMapel, $mapel, $jurusan);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "guru/mapel/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "guru/mapel/failed");
+      exit;
+    }
+  }
+
+  public function runDeleteMapel($idMapel)
+  {
+    $this->checkHasNotLogin();
+
+    $data = $this->model('MapelModel')->deleteMapel($idMapel);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "guru/mapel/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "guru/mapel/failed");
+      exit;
+    }
+  }
 }
