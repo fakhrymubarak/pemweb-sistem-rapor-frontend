@@ -189,34 +189,42 @@ class Admin extends Controller
 
 
   // === JURUSAN SECTION - CRUD ===
-  public function jurusan()
+  public function jurusan($status = "")
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('JurusanModel')->getAllJurusan();
-    var_dump($data);
+    $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
 
-    // @TODO set view
+    $data['status'] = $status;
+
+    $this->callHeader();
+    $this->view('admin/jurusan/jurusan', $data);
+    $this->view('templates/footer/footer');
   }
 
-  public function tambahJurusan()
+  public function tambahJurusan($isSuccess = "")
   {
     $this->checkHasNotLogin();
 
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/jurusan/tambahJurusan', $isSuccess);
+    $this->view('templates/footer/footer');
   }
 
   public function runTambahJurusan()
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $jurusan = $_POST[''];
+    $jurusan = $_POST['jurusan'];
 
     $data = $this->model('JurusanModel')->insertJurusan($jurusan);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/tambahJurusan/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/tambahFalse/false");
+      exit;
+    }
   }
 
   public function updateJurusan($idJurusan)
@@ -224,8 +232,9 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('JurusanModel')->getJurusanById($idJurusan);
-    var_dump($data);
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/jurusan/updateJurusan', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runUpdateJurusan($idJurusan)
@@ -233,12 +242,16 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     // @TODO set post
-    $jurusan = $_POST[''];
+    $jurusan = $_POST['jurusan'];
 
     $data = $this->model('JurusanModel')->updateJurusan($idJurusan, $jurusan);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/jurusan/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/jurusan/failed");
+      exit;
+    }
   }
 
   public function runDeleteJurusan($idJurusan)
@@ -246,10 +259,13 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('JurusanModel')->deleteJurusan($idJurusan);
-    var_dump($data);
-    die;
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/jurusan/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/jurusan/failed");
+      exit;
+    }
   }
 
 

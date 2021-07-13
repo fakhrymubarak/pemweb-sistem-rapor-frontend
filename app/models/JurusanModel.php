@@ -39,7 +39,7 @@ class JurusanModel
   public function updateJurusan($id, $jurusan)
   {
     $query = "UPDATE " . $this->table . "
-    SET `nama_jurusan`=:jurursan
+    SET `nama_jurusan`=:jurusan
     WHERE `id_jurusan`=:id;";
 
     $this->db->query($query);
@@ -51,7 +51,7 @@ class JurusanModel
   public function deleteJurusan($id)
   {
     $query = "DELETE FROM " . $this->table . "
-    WHERE `id`=:id;";
+    WHERE `id_jurusan`=:id;";
     $this->db->query($query);
     $this->db->bind('id', $id);
     return $this->db->rowCount();
