@@ -40,9 +40,21 @@ class SiswaModel
     return $this->db->rowCount();
   }
 
+
+
+  // SISWA RELATIONAL WITH OTHERS
+  public function getAllSiswaJurusanKelas()
+  {
+    $query = "SELECT `nis`, `nama_siswa`,`isActive`, `id_kelas`, `jenjang_kelas`, `urutan_kelas`, `nama_jurusan`  FROM " . $this->table . "
+    INNER JOIN `kelas` USING(`id_kelas`)
+    INNER JOIN `jurusan` USING(`id_jurusan`);";
+    $this->db->query($query);
+    return $this->db->resultSet();
+  }
+
   public function getSiswaWithJurusanKelasById($nis)
   {
-    $query = "SELECT `nis`, `nama_siswa`, `jenjang_kelas`, `urutan_kelas`, `nama_jurusan`  FROM " . $this->table . "
+    $query = "SELECT `siswa`.*, `jenjang_kelas`, `urutan_kelas`, `nama_jurusan`  FROM " . $this->table . "
     INNER JOIN `kelas` USING(`id_kelas`)
     INNER JOIN `jurusan` USING(`id_jurusan`)
     WHERE `nis`=:nis;";

@@ -58,7 +58,7 @@ class Admin extends Controller
     $data['founded'] = $founded;
     $this->view('templates/header/header');
     $this->view('admin/index', $data);
-    $this->view('templates/footer/footer');
+    $this->view('templates/footer/footer/footer');
   }
 
   public function logout()
@@ -546,30 +546,28 @@ class Admin extends Controller
 
 
   // === SISWA SECTION - CRUD===
-  public function siswa()
+  public function siswa($status = "")
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('SiswaModel')->getAllSiswa();
+    $data['listSiswa'] = $this->model('SiswaModel')->getAllSiswaJurusanKelas();
+    $data['status'] = $status;
 
-    $this->view('templates/header');
-    $this->view('templates/headerAdmin');
-    $this->view('templates/sidebarAdmin');
-    $this->view('admin/siswa', $data);
-    $this->view('templates/footer');
+    $this->callHeader();
+    $this->view('admin/siswa/siswa', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function tambahSiswa($isSuccess = "")
   {
     $this->checkHasNotLogin();
-    $data['isSuccess'] = $isSuccess;
-    $data['kelas'] = $this->model('KelasModel')->getAllKelasWithJurusan();
 
-    $this->view('templates/header');
-    $this->view('templates/headerGuru');
-    $this->view('templates/sidebarGuru');
-    $this->view('guru/tambahSiswa', $data);
-    $this->view('templates/footer');
+    $data['isSuccess'] = $isSuccess;
+    $data['kelas'] = $this->model('KelasModel')->getAllKelasJurusanWali();
+
+    $this->callHeader();
+    $this->view('admin/siswa/tambahSiswa', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runTambahSiswa()
@@ -585,10 +583,10 @@ class Admin extends Controller
     $data = $this->model('SiswaModel')->insertSiswa($nis, $nama, $email, $jenkel, $idKelas, $isActive);
 
     if ($data == 1) {
-      header("Location: " . BASE_URL . "guru/tambahSiswa/true");
+      header("Location: " . BASE_URL . "admin/tambahSiswa/true");
       exit;
     } else {
-      header("Location: " . BASE_URL . "guru/tambahSiswa/false");
+      header("Location: " . BASE_URL . "admin/tambahSiswa/false");
       exit;
     }
     // @TODO direct to spesific view
@@ -598,26 +596,32 @@ class Admin extends Controller
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('SiswaModel')->getSiswaById($idSiswa);
-    var_dump($data);
-    // @TODO set view
+    $data['siswa'] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($idSiswa);
+    $data['kelas'] = $this->model('KelasModel')->getAllKelasJurusanWali();
+    $this->callHeader();
+    $this->view('admin/siswa/updateSiswa', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runUpdateSiswa($nis)
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $nama = $_POST[''];
-    $email = $_POST[''];
-    $jenkel = $_POST[''];
-    $idKelas = $_POST[''];
-    $isActive = $_POST[''];
+    $nis = $_POST['nis'];
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $jenkel = $_POST['gender'];
+    $idKelas = $_POST['kelas'];
+    $isActive = $_POST['isActive'];
 
     $data = $this->model('SiswaModel')->updateSiswa($nis, $nama, $email, $jenkel, $idKelas, $isActive);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/siswa/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/siswa/failed");
+      exit;
+    }
   }
 
   public function runDeleteSiswa($nis)
@@ -625,8 +629,13 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('SiswaModel')->deleteSiswa($nis);
-    var_dump($data);
-    die;
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/siswa/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/siswa/failed");
+      exit;
+    }
 
     // @TODO direct to spesific view
   }
