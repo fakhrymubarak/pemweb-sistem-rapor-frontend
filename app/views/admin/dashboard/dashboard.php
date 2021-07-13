@@ -22,37 +22,36 @@ $counter = $data;
         </div>
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-          <a class="dashboard-stat bg-danger" href="<?= BASE_URL; ?>admin/mapel">
-            <span class="number counter"><?= $counter['totalMapel']; ?></span>
-            <span class="name">Mata Pelajaran</span>
-            <span class="bg-icon"><i class="fa fa-ticket"></i></span>
-          </a>
-          <!-- /.dashboard-stat -->
-        </div>
-
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
           <a class="dashboard-stat bg-success" href="<?= BASE_URL; ?>admin/rapor">
             <span class="number counter"><?= $counter['totalRapor']; ?></span>
             <span class="name">Hasil Raport</span>
             <span class="bg-icon"><i class="fa fa-file-text"></i></span>
           </a>
         </div>
-      </div>
-
-      <div class="row mt-30">
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-          <a class="dashboard-stat bg-primary" href="<?= BASE_URL; ?>admin/siswa">
-            <span class="number counter"><?= $counter['totalKelas']; ?></span>
-            <span class="name">Total Kelas</span>
-            <span class="bg-icon"><i class="fa fa-users"></i></span>
-          </a>
-        </div>
 
         <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
           <a class="dashboard-stat bg-danger" href="<?= BASE_URL; ?>admin/mapel">
+            <span class="number counter"><?= $counter['totalMapel']; ?></span>
+            <span class="name">Mata Pelajaran</span>
+            <span class="bg-icon"><i class="fa fa-ticket"></i></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="row mt-30">
+        <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12">
+          <a class="dashboard-stat bg-warning" href="<?= BASE_URL; ?>admin/kelas">
+            <span class="number counter"><?= $counter['totalKelas']; ?></span>
+            <span class="name">Total Kelas</span>
+            <span class="bg-icon"><i class="fa fa-table"></i></span>
+          </a>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+          <a class="dashboard-stat bg-info" href="<?= BASE_URL; ?>admin/guru">
             <span class="number counter"><?= $counter['totalGuru']; ?></span>
             <span class="name">Total Guru</span>
-            <span class="bg-icon"><i class="fa fa-ticket"></i></span>
+            <span class="bg-icon"><i class="fa fa-graduation-cap"></i></span>
           </a>
           <!-- /.dashboard-stat -->
         </div>

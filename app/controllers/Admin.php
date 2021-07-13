@@ -28,10 +28,10 @@ class Admin extends Controller
 
   protected function callHeader()
   {
-    $data['controller'] = "admin";
+    $controller = "admin";
     $this->view('templates/header/header');
-    $this->view('templates/header/headerAdmin');
-    $this->view('templates/sidebar/sidebarAdmin', $data['controller']);
+    $this->view('templates/header/headeTopBar', $controller);
+    $this->view('templates/sidebar/sidebar', $controller);
   }
 
 

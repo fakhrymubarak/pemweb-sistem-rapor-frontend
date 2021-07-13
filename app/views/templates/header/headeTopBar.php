@@ -1,3 +1,7 @@
+<?php
+$controller = $data;
+?>
+
 <body class="top-navbar-fixed">
   <div class="main-wrapper">
 
@@ -6,7 +10,7 @@
       <div class="container-fluid">
         <div class="row">
           <div class="navbar-header no-padding">
-            <a class="navbar-brand" href="<?= BASE_URL; ?>guru/dashboard">Sistem Manajemen Akademik Sekolah
+            <a class="navbar-brand" href="<?= BASE_URL . $controller; ?>/dashboard">Sistem Manajemen Akademik Sekolah
             </a>
             <span class="small-nav-handle hidden-sm hidden-xs"><i class="fa fa-outdent"></i></span>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1" aria-expanded="false">
@@ -20,18 +24,8 @@
           <!-- /.navbar-header -->
 
           <div class="collapse navbar-collapse" id="navbar-collapse-1">
-            <ul class="nav navbar-nav" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-              <li class="hidden-sm hidden-xs"><a href="#" class="user-info-handle"><i class="fa fa-user"></i></a></li>
-              <li class="hidden-sm hidden-xs"><a href="#" class="full-screen-handle"><i class="fa fa-arrows-alt"></i></a></li>
-              <li class="hidden-xs hidden-xs"></li>
-
-            </ul>
             <ul class="nav navbar-nav navbar-right" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-
-
-              <li><a href="<?= BASE_URL; ?>guru/logout" class="color-danger text-center"><i class="fa fa-sign-out"></i> Logout</a></li>
-
-
+              <li><a href="<?= BASE_URL . $controller; ?>/logout" class="color-danger text-center"><i class="fa fa-sign-out"></i> Logout</a></li>
             </ul>
             <!-- /.nav navbar-nav navbar-right -->
           </div>
