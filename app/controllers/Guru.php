@@ -91,6 +91,44 @@ class Guru extends Controller
     $this->view('templates/footer/footer');
   }
 
+  public function gantiPassword($isSuccess = "")
+  {
+    $this->checkHasNotLogin();
+
+    $this->callHeader();
+    $this->view('guru/dashboard/gantiPassword', $isSuccess);
+    $this->view('templates/footer/footer');
+  }
+
+  public function runGantiPassword()
+  {
+    $this->checkHasNotLogin();
+
+    $username = $_SESSION['usernameGuru'];
+    $oldPassword = $_POST['oldPassword'];
+    $newPassword = password_hash($_POST['newPassword'], PASSWORD_DEFAULT);
+
+    $data['oldPass'] = $this->model('GuruModel')->loginGuru($username, $oldPassword);
+
+    if ($data['oldPass'] == true && password_verify($oldPassword, $data['oldPass']['password'])) {
+
+      $data['updatePass'] = $this->model('GuruModel')->updatePassword($username, $newPassword);
+      if ($data['updatePass'] == 1) {
+        header("Location: " . BASE_URL . "guru/gantiPassword/true");
+        exit;
+      } else {
+        header("Location: " . BASE_URL . "guru/gantiPassword/false");
+        exit;
+      }
+    } else {
+      header("Location: " . BASE_URL . "guru/gantiPassword/false");
+      exit;
+    }
+  }
+
+
+
+
   // === SISWA SECTION - CRUD===
   public function siswa($status = "")
   {
