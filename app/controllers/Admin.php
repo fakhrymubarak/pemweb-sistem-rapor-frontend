@@ -194,7 +194,6 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
-
     $data['status'] = $status;
 
     $this->callHeader();
@@ -222,7 +221,7 @@ class Admin extends Controller
       header("Location: " . BASE_URL . "admin/tambahJurusan/true");
       exit;
     } else {
-      header("Location: " . BASE_URL . "admin/tambahFalse/false");
+      header("Location: " . BASE_URL . "admin/tambahJurusan/false");
       exit;
     }
   }
@@ -271,56 +270,75 @@ class Admin extends Controller
 
 
   // === MAPEL SECTION - CRUD ===
-  public function mapel()
+  public function mapel($status = "")
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('MapelModel')->getAllMapel();
-    var_dump($data);
+    $data['listMapel'] = $this->model('MapelModel')->getAllMapelWithJurusan();
+    $data['status'] = $status;
 
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/mapel/mapel', $data);
+    $this->view('templates/footer/footer');
   }
 
-  public function tambahMapel()
+  public function tambahMapel($isSuccess = "")
   {
     $this->checkHasNotLogin();
 
-    // @TODO set view
+    $this->callHeader();
+    $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
+    $data['success'] = $isSuccess;
+
+    $this->view('admin/mapel/tambahMapel', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runTambahMapel()
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $mapel = $_POST[''];
+    $mapel = $_POST['mapel'];
+    $jurusan = $_POST['jurusan'];
 
-    $data = $this->model('MapelModel')->insertMapel($mapel);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    $data = $this->model('MapelModel')->insertMapel($mapel, $jurusan);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/tambahMapel/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/tambahMapel/false");
+      exit;
+    }
   }
 
   public function updateMapel($idMapel)
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('MapelModel')->getMapelById($idMapel);
-    var_dump($data);
-    // @TODO set view
+    $data['mapel'] = $this->model('MapelModel')->getMapelById($idMapel);
+    $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
+
+    $this->callHeader();
+    $this->view('admin/mapel/updateMapel', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runUpdateMapel($idMapel)
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $mapel = $_POST[''];
+    var_dump($_POST);
+    $mapel = $_POST['mapel'];
+    $jurusan = $_POST['jurusan'];
 
-    $data = $this->model('MapelModel')->updateMapel($idMapel, $mapel);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    $data = $this->model('MapelModel')->updateMapel($idMapel, $mapel, $jurusan);
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/mapel/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/mapel/failed");
+      exit;
+    }
   }
 
   public function runDeleteMapel($idMapel)
@@ -328,10 +346,13 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('MapelModel')->deleteMapel($idMapel);
-    var_dump($data);
-    die;
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/mapel/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/mapel/failed");
+      exit;
+    }
   }
 
 

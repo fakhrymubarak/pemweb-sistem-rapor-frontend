@@ -1,20 +1,22 @@
 <?php
-$success = $data;
+$success = $data['success'];
+$listJurusan = $data['listJurusan'];
+
 
 ?>
 <div class="main-page">
   <div class="container-fluid">
     <div class="row page-title-div">
       <div class="col-md-6">
-        <h2 class="title">Buat Periode Baru</h2>
+        <h2 class="title">Tambah Mata Pelajaran</h2>
       </div>
     </div>
 
     <div class="row breadcrumb-div">
       <div class="col-md-6">
         <ul class="breadcrumb">
-          <li><a href="dashboard.php"><i class="fa fa-home"></i> Home</a></li>
-          <li class="active">Buat Periode Baru</li>
+          <li><a href="<?= BASE_URL; ?>admin\dashboard"><i class="fa fa-home"></i> Home</a></li>
+          <li class="active">Tambah Mata Pelajaran</li>
         </ul>
       </div>
 
@@ -29,7 +31,7 @@ $success = $data;
           <div class="panel">
             <div class="panel-heading">
               <div class="panel-title">
-                <h5>Buat Periode</h5>
+                <h5>Tambah Mata Pelajaran</h5>
               </div>
             </div>
 
@@ -47,21 +49,35 @@ $success = $data;
                 </div>
               <?php } ?>
 
-              <form class="form-horizontal" method="post" action="<?= BASE_URL; ?>admin\runTambahPeriode">
+
+              <form class="form-horizontal" method="post" action="<?= BASE_URL; ?>admin\runTambahMapel">
                 <div class="form-group">
-                  <label for="periode" class="col-sm-2 control-label">Tahun Ajaran:</label>
+                  <label for="mapel" class="col-sm-2 control-label">Mata Pelajaran:</label>
                   <div class="col-sm-10">
-                    <input type="text" name="periode" class="form-control" id="periode" placeholder="2020/2021" required>
+                    <input type="text" name="mapel" class="form-control" id="mapel" placeholder="Nama Mata Pelajaran" required>
                   </div>
                 </div>
 
+
                 <div class="form-group">
-                  <label for="semester" class="col-sm-2 control-label">Semester:</label>
+                  <label for="jurusan" class="col-sm-2 control-label">Jurusan</label>
                   <div class="col-sm-10">
-                    <select name="semester" class="form-control" id="semester" required>
-                      <option value="Ganjil">Ganjil</option>
-                      <option value="Genap">Genap</option>
-                    </select>
+                    <select name="jurusan" class="form-control" id="jurusan" required>
+                      <option value="">Pilih jurusan</option>
+
+                      <?php foreach ($listJurusan as $jurusan) { ?>
+                        <option value="<?= $jurusan['id_jurusan']; ?>">
+                          <?= $jurusan['nama_jurusan']; ?>
+                        </option>
+                      <?php } ?>
+
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <div class="col-sm-10">
+                    <input type="radio" value="0" hidden>
                   </div>
                 </div>
 

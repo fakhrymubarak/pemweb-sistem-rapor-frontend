@@ -29,7 +29,7 @@ class MapelModel
   {
     $query = "INSERT INTO " . $this->table . "
     (`nama_mapel`, `id_jurusan`)
-    VALUES (:mapel, `idJurusan`);";
+    VALUES (:mapel, :idJurusan);";
 
     $this->db->query($query);
     $this->db->bind('mapel', $mapel);
@@ -40,7 +40,7 @@ class MapelModel
   public function getMapelById($id)
   {
     $query = "SELECT * FROM " . $this->table . "
-    WHERE `id`=:id;";
+    WHERE `id_mapel`=:id;";
     $this->db->query($query);
     $this->db->bind('id', $id);
     return $this->db->singleSet();
@@ -49,7 +49,7 @@ class MapelModel
   public function updateMapel($id, $mapel, $idJurusan)
   {
     $query = "UPDATE " . $this->table . "
-    SET `nama_mapel`=:mapel
+    SET `nama_mapel`=:mapel,
     `id_jurusan`=:idJurusan
     WHERE `id_mapel`=:id;";
 
@@ -67,5 +67,17 @@ class MapelModel
     $this->db->query($query);
     $this->db->bind('id', $id);
     return $this->db->rowCount();
+  }
+
+
+  // MAPEL RELATION WITH JURUSAN
+
+  public function getAllMapelWithJurusan()
+  {
+    $query = "SELECT `id_mapel`, `nama_mapel`, `nama_jurusan` FROM " . $this->table . " 
+    INNER JOIN `jurusan` USING(`id_jurusan`)";
+
+    $this->db->query($query);
+    return $this->db->resultSet();
   }
 }
