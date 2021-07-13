@@ -58,7 +58,7 @@ class Admin extends Controller
     $data['founded'] = $founded;
     $this->view('templates/header/header');
     $this->view('admin/index', $data);
-    $this->view('templates/footer/footer/footer');
+    $this->view('templates/footer/footer');
   }
 
   public function logout()
