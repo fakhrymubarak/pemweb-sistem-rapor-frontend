@@ -1,6 +1,6 @@
 <?php
-$listSiswa = $data;
-
+$status = $data['status'];
+$listSiswa = $data['listSiswa'];
 ?>
 
 <style>
@@ -54,6 +54,24 @@ $listSiswa = $data;
             </div>
 
             <div class="panel-body p-20">
+              <a href="<?= BASE_URL; ?>guru/tambahSiswa" class="btn btn-primary mb-20">Tambah Siswa</a>
+
+              <?php if ($status == "deleted") { ?>
+                <div class="alert alert-success left-icon-alert" role="alert">
+                  <strong>Berhasil Menghapus Data</strong>
+                </div>
+
+              <?php } else if ($status == "edited") { ?>
+                <div class="alert alert-success left-icon-alert" role="alert">
+                  <strong>Berhasil Mengupdate Data</strong>
+                </div>
+
+              <?php } else if ($status == "failed") { ?>
+
+                <div class="alert alert-danger left-icon-alert" role="alert">
+                  <strong>Error</strong>
+                </div>
+              <?php } ?>
 
               <table id="example" class="display table table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
@@ -62,7 +80,6 @@ $listSiswa = $data;
                     <th>Nama </th>
                     <th>NIS</th>
                     <th>Kelas</th>
-                    <th>Tgl Registrasi</th>
                     <th>Status</th>
                     <th>Edit</th>
                 </thead>
@@ -74,17 +91,25 @@ $listSiswa = $data;
                       <td><?= $i; ?></td>
                       <td><?= $siswa['nama_siswa']; ?></td>
                       <td><?= $siswa['nis']; ?></td>
-                      <td><?= $siswa['id_kelas']; ?></td>
-                      <td><?= $siswa['reg_date']; ?></td>
-                      <td><?= $siswa['isActive']; ?></td>
-                      <td>
-                        <a href="<?= BASE_URL; ?>guru/updateSiswa"><i class="fa fa-edit" title="Edit Record"></i> </a>
+                      <td><?= $siswa['jenjang_kelas'] . " " . $siswa['nama_jurusan'] . " " . $siswa['urutan_kelas']; ?></td>
+                      <td style="width: 10%">
+
+                        <?php if ($siswa['isActive']) {
+                          echo "Aktif";
+                        } else {
+                          echo "Tidak Aktif";
+                        } ?>
+
+                      </td>
+                      <td style="width: 20%">
+                        <a href="<?= BASE_URL; ?>guru/updateSiswa/<?= $siswa['nis']; ?>" class="btn btn-warning">Edit</a>
+                        <a href="<?= BASE_URL; ?>guru/runDeleteSiswa/<?= $siswa['nis']; ?>" class="btn btn-danger">Delete</a>
+                      </td>
                       </td>
                     </tr>
 
                   <?php $i++;
                   } ?>
-                  
                 </tbody>
               </table>
             </div>

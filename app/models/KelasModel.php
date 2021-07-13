@@ -78,4 +78,16 @@ class KelasModel
     $this->db->query($query);
     return $this->db->resultSet();
   }
+
+  public function getKelasByWali($username)
+  {
+    $query = "SELECT `id_kelas`, `jenjang_kelas`, `nama_jurusan`, `urutan_kelas`, `nama_guru`  FROM " . $this->table . " k
+    INNER JOIN `jurusan` j USING(id_jurusan)
+    INNER JOIN `guru` g ON k.`wali_kelas`=g.`id_guru`
+    WHERE `username`=:username";
+
+    $this->db->query($query);
+    $this->db->bind('username', $username);
+    return $this->db->singleSet();
+  }
 }

@@ -64,9 +64,17 @@ $listRapor = $data["listRapor"];
                 </div>
 
                 <div class="form-group">
-                  <label for="kelas" class="col-sm-2 control-label">NIS:</label>
+                  <label for="kelas" class="col-sm-2 control-label">Kelas:</label>
                   <div class="col-sm-10">
                     <input type="text" name="kelas" class="form-control" id="kelas" value="<?= $siswa['jenjang_kelas'] . " " . $siswa['nama_jurusan'] . " " . $siswa['urutan_kelas']; ?>" disabled>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="kelas" class="col-sm-2 control-label">Periode :</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="kelas" class="form-control" id="kelas" value="<?= $listRapor[0]['tahun_ajaran'] . " - " . $listRapor[0]['semester']; ?>" disabled>
                   </div>
                 </div>
 

@@ -26,6 +26,14 @@ class Guru extends Controller
     }
   }
 
+  protected function callHeader()
+  {
+    $controller = "guru";
+    $this->view('templates/header/header');
+    $this->view('templates/header/headeTopBar', $controller);
+    $this->view('templates/sidebar/sidebar', $controller);
+  }
+
   // === GURU SECTION ===
   public function index()
   {
@@ -38,9 +46,9 @@ class Guru extends Controller
     $this->checkHasLogin();
 
     $data['founded'] = $founded;
-    $this->view('templates/header');
+    $this->view('templates/header/header', $data);
     $this->view('guru/index', $data);
-    $this->view('templates/footer');
+    $this->view('templates/footer/footer');
   }
 
   public function logout()
@@ -78,106 +86,35 @@ class Guru extends Controller
     $data["totalMapel"] = $this->model('MapelModel')->countMapel();
     $data["totalRapor"] = $this->model('RaporModel')->countRaporBasedGuru($_SESSION["usernameGuru"]);
 
-    $this->view('templates/header');
-    $this->view('templates/headerGuru');
-    $this->view('templates/sidebarGuru');
-    $this->view('guru/dashboard', $data);
-    $this->view('templates/footer');
+    $this->callHeader();
+    $this->view('guru/dashboard/dashboard', $data);
+    $this->view('templates/footer/footer');
   }
-
-
-
-  // === MAPEL SECTION - CRUD ===
-  public function mapel()
-  {
-    $this->checkHasNotLogin();
-
-    $data = $this->model('MapelModel')->getAllMapel();
-    var_dump($data);
-
-    // @TODO set view
-  }
-
-  public function tambahMapel()
-  {
-    $this->checkHasNotLogin();
-
-    // @TODO set view
-  }
-
-  public function runTambahMapel()
-  {
-    $this->checkHasNotLogin();
-
-    // @TODO set post
-    $mapel = $_POST[''];
-
-    $data = $this->model('MapelModel')->insertMapel($mapel);
-    var_dump($data);
-
-    // @TODO direct to spesific view
-  }
-
-  public function updateMapel($idMapel)
-  {
-    $this->checkHasNotLogin();
-
-    $data = $this->model('MapelModel')->getMapelById($idMapel);
-    var_dump($data);
-    // @TODO set view
-  }
-
-  public function runUpdateMapel($idMapel)
-  {
-    $this->checkHasNotLogin();
-
-    // @TODO set post
-    $mapel = $_POST[''];
-
-    $data = $this->model('MapelModel')->updateMapel($idMapel, $mapel);
-    var_dump($data);
-
-    // @TODO direct to spesific view
-  }
-
-  public function runDeleteMapel($idMapel)
-  {
-    $this->checkHasNotLogin();
-
-    $data = $this->model('MapelModel')->deleteMapel($idMapel);
-    var_dump($data);
-    die;
-
-    // @TODO direct to spesific view
-  }
-
-
 
   // === SISWA SECTION - CRUD===
-  public function siswa()
+  public function siswa($status = "")
   {
     $this->checkHasNotLogin();
+    $username = $_SESSION["usernameGuru"];
+    $data['status'] = $status;
+    $data['listSiswa'] = $this->model('SiswaModel')->getAllSiswaWithTeacher($username);
 
-    $data = $this->model('SiswaModel')->getAllSiswaWithTeacher($_SESSION["usernameGuru"]);
-
-    $this->view('templates/header');
-    $this->view('templates/headerGuru');
-    $this->view('templates/sidebarGuru');
-    $this->view('guru/siswa', $data);
-    $this->view('templates/footer');
+    $this->callHeader();
+    $this->view('guru/siswa/siswa', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function tambahSiswa($isSuccess = "")
   {
     $this->checkHasNotLogin();
-    $data['isSuccess'] = $isSuccess;
-    $data['kelas'] = $this->model('KelasModel')->getAllKelasWithJurusan();
 
-    $this->view('templates/header');
-    $this->view('templates/headerGuru');
-    $this->view('templates/sidebarGuru');
-    $this->view('guru/tambahSiswa', $data);
-    $this->view('templates/footer');
+    $username = $_SESSION["usernameGuru"];
+    $data['isSuccess'] = $isSuccess;
+    $data['kelas'] = $this->model('KelasModel')->getKelasByWali($username);
+
+    $this->callHeader();
+    $this->view('guru/siswa/tambahSiswa', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runTambahSiswa()
@@ -187,11 +124,10 @@ class Guru extends Controller
     $nama = $_POST['nama'];
     $email = $_POST['email'];
     $jenkel = $_POST['gender'];
-    $idKelas = $_POST['kelas'];
+    $idKelas = $_POST['idKelas'];
     $isActive = $_POST['isActive'];
 
     $data = $this->model('SiswaModel')->insertSiswa($nis, $nama, $email, $jenkel, $idKelas, $isActive);
-
     if ($data == 1) {
       header("Location: " . BASE_URL . "guru/tambahSiswa/true");
       exit;
@@ -199,16 +135,19 @@ class Guru extends Controller
       header("Location: " . BASE_URL . "guru/tambahSiswa/false");
       exit;
     }
-    // @TODO direct to spesific view
   }
 
   public function updateSiswa($idSiswa)
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('SiswaModel')->getSiswaById($idSiswa);
-    var_dump($data);
-    // @TODO set view
+    $username = $_SESSION["usernameGuru"];
+    $data['siswa'] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($idSiswa);
+    $data['kelas'] = $this->model('KelasModel')->getKelasByWali($username);
+
+    $this->callHeader();
+    $this->view('guru/siswa/updateSiswa', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runUpdateSiswa($nis)
@@ -216,16 +155,22 @@ class Guru extends Controller
     $this->checkHasNotLogin();
 
     // @TODO set post
-    $nama = $_POST[''];
-    $email = $_POST[''];
-    $jenkel = $_POST[''];
-    $idKelas = $_POST[''];
+    $nis = $_POST['nis'];
+    $nama = $_POST['nama'];
+    $email = $_POST['email'];
+    $jenkel = $_POST['gender'];
+    $idKelas = $_POST['idKelas'];
+    $isActive = $_POST['isActive'];
     $isActive = $_POST[''];
 
     $data = $this->model('SiswaModel')->updateSiswa($nis, $nama, $email, $jenkel, $idKelas, $isActive);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "guru/siswa/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "guru/siswa/failed");
+      exit;
+    }
   }
 
   public function runDeleteSiswa($nis)
@@ -233,10 +178,13 @@ class Guru extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('SiswaModel')->deleteSiswa($nis);
-    var_dump($data);
-    die;
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "guru/siswa/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "guru/siswa/failed");
+      exit;
+    }
   }
 
   // === RAPOR SECTION - CRUD===
