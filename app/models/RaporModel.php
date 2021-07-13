@@ -66,14 +66,15 @@ class RaporModel
   // RELATION QUERY WITH SISWA
   public function getAllFullRaporSiswa()
   {
-    $query = "SELECT `nama_siswa`, `nis`, `id_kelas`, `jenjang_kelas`, `nama_jurusan`, `urutan_kelas`, 
+    $query = "SELECT `nama_siswa`, `nis`, `id_kelas`, `jenjang_kelas`, `nama_jurusan`, `urutan_kelas`, `tahun_ajaran`, `semester`, `periode_nilai`,
     SUM(`nilai`) AS `total_nilai`,
     COUNT(`nilai`) AS `total_mapel`
-    FROM " . $this->table . " 
+    FROM " . $this->table . " rp
     INNER JOIN `siswa` USING(`nis`)
     INNER JOIN `kelas` USING(`id_kelas`)
     INNER JOIN `jurusan` j USING(id_jurusan)
-    GROUP BY `nis`;";
+    INNER JOIN `periode_ajaran` pa ON rp.`periode_nilai`=pa.`id`
+    GROUP BY `nis`, `periode_nilai`";
     $this->db->query($query);
     return $this->db->resultSet();
   }
@@ -91,13 +92,12 @@ class RaporModel
   public function getFullRaporByNisPeriode($nis, $idPeriode)
   {
     $query = "SELECT rp.`id`, `nama_mapel` ,`nilai`, `tahun_ajaran`, `semester` FROM " . $this->table . " rp
+    INNER JOIN `periode_ajaran` pa ON rp.`periode_nilai`=pa.`id`
     INNER JOIN `siswa` USING(`nis`)
     INNER JOIN `mapel` USING(`id_mapel`)
-    INNER JOIN `periode_ajaran` pa ON `periode_nilai`=pa.`id`
-    WHERE `nis`=:nis AND pa.`id`=:idPeriode ;";
+    WHERE `nis`=:nis AND pa.`id`=1;";
     $this->db->query($query);
     $this->db->bind('nis', $nis);
-    $this->db->bind('idPeriode', $idPeriode);
     return $this->db->resultSet();
   }
 

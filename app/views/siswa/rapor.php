@@ -1,7 +1,7 @@
 <?php
+$controller = $data['controller'];
 $siswa = $data['siswa'];
 $listRapor = $data['listRapor'];
-$controller = $data['controller'];
 
 ?>
 

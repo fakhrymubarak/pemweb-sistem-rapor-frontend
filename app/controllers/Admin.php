@@ -673,6 +673,7 @@ class Admin extends Controller
     // @TODO direct to spesific view
   }
 
+
   // === RESULT SECTION ===
   public function rapor($status = "")
   {
@@ -686,15 +687,16 @@ class Admin extends Controller
     $this->view('templates/footer/footer');
   }
 
-  public function detailRapor($nis = "", $idKelas)
+  public function detailRapor($nis = "", $idKelas = "", $idPeriode = "")
   {
     $this->checkHasNotLogin();
-    if ($nis == "" || $idKelas == "") {
+    if ($nis == "" || $idKelas == "" || $idPeriode == "") {
       header("Location: " . BASE_URL . "admin/rapor");
       exit;
     } else {
       $data["siswa"] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($nis);
-      $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNis($nis);
+
+      $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNisPeriode($nis,  $idPeriode);
       $data["controller"] = "admin";
 
       $this->view('templates/header/header');
@@ -737,14 +739,14 @@ class Admin extends Controller
     }
   }
 
-  public function updateRapor($nis, $isSuccess = "")
+  public function updateRapor($nis, $periode, $isSuccess = "")
   {
     $this->checkHasNotLogin();
 
     $data["controller"] = "admin";
     $data["isSuccess"] = $isSuccess;
     $data["siswa"] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($nis);
-    $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNis($nis);
+    $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNisPeriode($nis, $periode);
 
     $this->callHeader();
     $this->view('admin/rapor/updateRapor', $data);

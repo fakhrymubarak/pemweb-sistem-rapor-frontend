@@ -83,6 +83,7 @@ $status = $data['status'];
                     <th>Total Nilai</th>
                     <th>Total Mapel</th>
                     <th>Persentasi</th>
+                    <th>Periode</th>
                     <th>Action</th>
                 </thead>
                 <tbody>
@@ -91,16 +92,17 @@ $status = $data['status'];
                   foreach ($listSiswa as $siswa) {
                   ?>
                     <tr>
-                      <td><?= $i; ?></td>
-                      <td><?= $siswa['nama_siswa']; ?></td>
-                      <td><?= $siswa['nis']; ?></td>
-                      <td><?= $siswa['jenjang_kelas'] . " " . $siswa['nama_jurusan'] . " " . $siswa['urutan_kelas']; ?></td>
-                      <td style="width: 10%"><?= (int)$siswa['total_nilai']; ?></td>
-                      <td style="width: 10%"><?= (int)$siswa['total_mapel']; ?></td>
-                      <td style="width: 10%"><?= $persentasiNilai = (int)$siswa['total_nilai'] / (int)$siswa['total_mapel']; ?> %</td>
-                      <td style="width: 25%">
-                        <a href="<?= BASE_URL; ?>admin/updateRapor/<?= $siswa['nis']; ?>" class="btn btn-warning">Detail</a>
-                        <a href="<?= BASE_URL; ?>admin/detailRapor/<?= $siswa['nis'] . "/" . $siswa['id_kelas']; ?>" class="btn btn-primary">Preview</a>
+                      <td style="width: 2%"><?= $i; ?></td>
+                      <td style="width: 20%"><?= $siswa['nama_siswa']; ?></td>
+                      <td style="width: 10%"><?= $siswa['nis']; ?></td>
+                      <td style="width: 8%"><?= $siswa['jenjang_kelas'] . " " . $siswa['nama_jurusan'] . " " . $siswa['urutan_kelas']; ?></td>
+                      <td style="width: 5%"><?= (int)$siswa['total_nilai']; ?></td>
+                      <td style="width: 5%"><?= (int)$siswa['total_mapel']; ?></td>
+                      <td style="width: 7%"><?= $persentasiNilai = (int)((int)$siswa['total_nilai'] / (int)$siswa['total_mapel']); ?> %</td>
+                      <td style="width: 15%"> <?= $siswa['tahun_ajaran'] . " - " . $siswa['semester']; ?></td>
+                      <td style="width: 17%">
+                        <a href="<?= BASE_URL; ?>admin/updateRapor/<?= $siswa['nis'] . "/" . $siswa['periode_nilai']; ?>" class="btn btn-warning">Detail</a>
+                        <a href="<?= BASE_URL; ?>admin/detailRapor/<?= $siswa['nis'] . "/" . $siswa['id_kelas'] . "/" . $siswa['periode_nilai']; ?>" class="btn btn-primary">Preview</a>
                       </td>
                       </td>
                     </tr>

@@ -43,7 +43,7 @@ class Siswa extends Controller
 
   public function rapor($nis = "", $idKelas = "", $idPeriode = "")
   {
-    if ($nis == "" || $idKelas == "") {
+    if ($nis == "" || $idKelas == "" || $idPeriode == "") {
       header("Location: " . BASE_URL . "siswa/login");
       exit;
     } else {
