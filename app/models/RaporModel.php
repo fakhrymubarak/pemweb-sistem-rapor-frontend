@@ -114,4 +114,22 @@ class RaporModel
     $this->db->bind('username', $usernameGuru);
     return $this->db->singleSet()['total'];
   }
+
+  public function getAllFullRaporSiswaWithTeacher($usernameGuru)
+  {
+    $query = "SELECT `nama_siswa`, `nis`, `id_kelas`, `jenjang_kelas`, `nama_jurusan`, `urutan_kelas`, `tahun_ajaran`, `semester`, `periode_nilai`,
+    SUM(`nilai`) AS `total_nilai`,
+    COUNT(`nilai`) AS `total_mapel`
+    FROM " . $this->table . " rp
+    INNER JOIN `siswa` USING(`nis`)
+    INNER JOIN `kelas` USING(`id_kelas`)
+    INNER JOIN `jurusan` j USING(id_jurusan)
+    INNER JOIN `periode_ajaran` pa ON rp.`periode_nilai`=pa.`id`
+    INNER JOIN `guru` g ON g.`id_guru`=`wali_kelas`
+    WHERE `username`=:username
+    GROUP BY `nis`, `periode_nilai`";
+    $this->db->query($query);
+    $this->db->bind('username', $usernameGuru);
+    return $this->db->resultSet();
+  }
 }
