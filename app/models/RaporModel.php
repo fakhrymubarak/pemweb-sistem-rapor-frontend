@@ -88,15 +88,16 @@ class RaporModel
     return $this->db->resultSet();
   }
 
-  public function getFullRaporByNis($nis)
+  public function getFullRaporByNisPeriode($nis, $idPeriode)
   {
     $query = "SELECT rp.`id`, `nama_mapel` ,`nilai`, `tahun_ajaran`, `semester` FROM " . $this->table . " rp
     INNER JOIN `siswa` USING(`nis`)
     INNER JOIN `mapel` USING(`id_mapel`)
     INNER JOIN `periode_ajaran` pa ON `periode_nilai`=pa.`id`
-    WHERE `nis`=:nis;";
+    WHERE `nis`=:nis AND pa.`id`=:idPeriode ;";
     $this->db->query($query);
     $this->db->bind('nis', $nis);
+    $this->db->bind('idPeriode', $idPeriode);
     return $this->db->resultSet();
   }
 

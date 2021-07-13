@@ -1,5 +1,6 @@
 <?php
 $listKelas = $data['kelas'];
+$listPeriode = $data['periode'];
 $founded = $data['founded'];
 ?>
 
@@ -24,6 +25,20 @@ $founded = $data['founded'];
               <?= $kelas['jenjang_kelas'] . " " . $kelas['nama_jurusan'] . " " . $kelas['urutan_kelas']; ?>
             </option>
 
+          <?php } ?>
+
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="idPeriode">Periode</label>
+        <select name="idPeriode" class="form-control" id="idPeriode" required>
+          <option value="">Pilih Periode</option>
+
+          <?php foreach ($listPeriode as $periode) { ?>
+            <option value="<?= $periode['id']; ?>">
+              <?= $periode['tahun_ajaran'] . " - " . $periode['semester']; ?>
+            </option>
           <?php } ?>
 
         </select>

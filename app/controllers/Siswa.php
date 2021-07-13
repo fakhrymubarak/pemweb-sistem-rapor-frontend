@@ -17,9 +17,10 @@ class Siswa extends Controller
   public function login($founded = "true")
   {
     $data['kelas'] = $this->model('KelasModel')->getAllKelasJurusanWali();
+    $data['periode'] = $this->model('PeriodeModel')->getAllPeriode();
     $data['founded'] = $founded;
     $this->view('templates/header/header');
-    $this->view('templates/header/headerStudent');
+    $this->view('templates/header/headerRapor');
     $this->view('siswa/index', $data);
     $this->view('templates/footer/footer');
   }
@@ -28,10 +29,11 @@ class Siswa extends Controller
   {
     $nis = $_POST['nis'];
     $idKelas = $_POST['idKelas'];
+    $idPeriode = $_POST['idPeriode'];
 
     $data = $this->model('RaporModel')->getRaporByNis($nis);
     if ($data == true && $data[0]['id_kelas'] == $idKelas) {
-      header("Location: " . BASE_URL . "siswa/rapor/" . $nis . "/" . $idKelas);
+      header("Location: " . BASE_URL . "siswa/rapor/" . $nis . "/" . $idKelas . "/" . $idPeriode);
       exit;
     } else {
       header("Location: " . BASE_URL . "siswa/login/0");
@@ -39,7 +41,7 @@ class Siswa extends Controller
     }
   }
 
-  public function rapor($nis = "", $idKelas = "")
+  public function rapor($nis = "", $idKelas = "", $idPeriode = "")
   {
     if ($nis == "" || $idKelas == "") {
       header("Location: " . BASE_URL . "siswa/login");
@@ -47,7 +49,7 @@ class Siswa extends Controller
     } else {
       $data["controller"] = "siswa";
       $data["siswa"] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($nis);
-      $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNis($nis);
+      $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNisPeriode($nis, $idPeriode);
 
       $this->view('templates/header/header');
       $this->view('templates/header/headerRapor', $data["controller"]);

@@ -13,9 +13,8 @@ $controller = $data
               <li><a href="<?= BASE_URL; ?>admin/rapor" class="color-primary text-center"><i class="fa fa-sign-in"></i> Kembali Daftar Rapor</a>
               <?php } elseif ($controller == "guru") { ?>
               <li><a href="<?= BASE_URL; ?>guru/login" class="color-primary text-center"><i class="fa fa-sign-in"></i> Kembali Daftar Rapor</a>
-
               <?php } elseif ($controller == "siswa") { ?>
-                <a href="<?= BASE_URL; ?>siswa/ndex">Kembali</a>
+                <a href="<?= BASE_URL; ?>siswa/index" class="color-primary text-center"><i class="fa fa-sign-in"></i> Kembali</a>
               <?php }  ?>
               </li>
           </ul>
