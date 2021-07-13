@@ -7,8 +7,16 @@ $controller = $data;
     <div class="left-sidebar bg-black-300 box-shadow ">
       <div class="sidebar-content">
         <div class="user-info">
-          <img src="<?= BASE_URL; ?>assets/admin.png" class="img-circle profile-img" height="105">
-          <h6 class="title">Super Admin</h6>
+
+          <?php if ($controller == "guru") { ?>
+            <img src="<?= BASE_URL; ?>assets/teacher.png" class="img-circle profile-img" height="105">
+            <h6 class="title">Wali Kelas</h6>
+          <?php } else { ?>
+            <img src="<?= BASE_URL; ?>assets/admin.png" class="img-circle profile-img" height="105">
+            <h6 class="title">Super Admin</h6>
+          <?php } ?>
+
+
         </div>
         <!-- /.user-info -->
 
