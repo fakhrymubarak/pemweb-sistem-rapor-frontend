@@ -16,7 +16,7 @@ class Siswa extends Controller
 
   public function login($founded = "true")
   {
-    $data['kelas'] = $this->model('KelasModel')->getAllKelasWithJurusan();
+    $data['kelas'] = $this->model('KelasModel')->getAllKelasJurusanWali();
     $data['founded'] = $founded;
     $this->view('templates/header/header');
     $this->view('templates/header/headerStudent');

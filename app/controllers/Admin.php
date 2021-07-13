@@ -66,6 +66,8 @@ class Admin extends Controller
     $this->checkHasNotLogin();
     session_unset();
     session_destroy();
+    header("Location: " . BASE_URL . "admin/login");
+    exit;
   }
 
   public function runLogin()
@@ -327,7 +329,6 @@ class Admin extends Controller
   {
     $this->checkHasNotLogin();
 
-    var_dump($_POST);
     $mapel = $_POST['mapel'];
     $jurusan = $_POST['jurusan'];
 
@@ -358,62 +359,81 @@ class Admin extends Controller
 
 
   // ==== KELAS SECTION - CRUD ===
-  public function kelas()
+  public function kelas($status = "")
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('KelasModel')->getAllKelas();
-    var_dump($data);
+    $data['listKelas'] = $this->model('KelasModel')->getAllKelasJurusanWali();
+    $data['status'] = $status;
 
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/kelas/kelas', $data);
+    $this->view('templates/footer/footer');
   }
 
-  public function tambahKelas()
+  public function tambahKelas($isSuccess = "")
   {
     $this->checkHasNotLogin();
 
-    // @TODO set view
+    $data['success'] = $isSuccess;
+    $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
+    $data['listGuru'] = $this->model('GuruModel')->getAllGuru();
+
+    $this->callHeader();
+    $this->view('admin/kelas/tambahKelas', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runTambahKelas()
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $kelas = $_POST[''];
-    $urutan = $_POST[''];
-    $idJurusan = $_POST[''];
-    $idWali = $_POST[''];
+    $kelas = $_POST['jenjangKelas'];
+    $urutan = $_POST['urutan'];
+    $idJurusan = $_POST['jurusan'];
+    $idWali = $_POST['wali'];
 
     $data = $this->model('KelasModel')->insertKelas($kelas, $urutan, $idJurusan, $idWali);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/tambahKelas/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/tambahKelas/false");
+      exit;
+    }
   }
 
   public function updateKelas($idKelas)
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('KelasModel')->getKelasById($idKelas);
-    var_dump($data);
-    // @TODO set view
+    $data['kelas'] = $this->model('KelasModel')->getKelasById($idKelas);
+    $data['listJurusan'] = $this->model('JurusanModel')->getAllJurusan();
+    $data['listGuru'] = $this->model('GuruModel')->getAllGuru();
+
+    $this->callHeader();
+    $this->view('admin/kelas/updateKelas', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runUpdateKelas($idKelas)
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $kelas = $_POST[''];
-    $urutan = $_POST[''];
-    $idJurusan = $_POST[''];
-    $idWali = $_POST[''];
+    $kelas = $_POST['jenjangKelas'];
+    $urutan = $_POST['urutan'];
+    $idJurusan = $_POST['jurusan'];
+    $idWali = $_POST['wali'];
 
     $data = $this->model('KelasModel')->updateKelas($idKelas, $kelas, $urutan, $idJurusan, $idWali);
     var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/kelas/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/kelas/failed");
+      exit;
+    }
   }
 
   public function runDeleteKelas($idKelas)
@@ -421,8 +441,13 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('KelasModel')->deleteKelas($idKelas);
-    var_dump($data);
-    die;
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/kelas/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/kelas/failed");
+      exit;
+    }
 
     // @TODO direct to spesific view
   }

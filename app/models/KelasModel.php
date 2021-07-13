@@ -17,15 +17,6 @@ class KelasModel
     return $this->db->singleSet()['total'];
   }
 
-  public function getAllKelasWithJurusan()
-  {
-    $query = "SELECT `id_kelas`, `jenjang_kelas`, `nama_jurusan`, `urutan_kelas`  FROM " . $this->table . " k
-    INNER JOIN `jurusan` j USING(id_jurusan)";
-
-    $this->db->query($query);
-    return $this->db->resultSet();
-  }
-
   public function insertKelas($kelas, $urutan, $idJurusan, $idWali)
   {
     $query = "INSERT INTO " . $this->table . "
@@ -74,5 +65,17 @@ class KelasModel
     $this->db->query($query);
     $this->db->bind('idKelas', $idKelas);
     return $this->db->rowCount();
+  }
+
+
+  // RELASI KELAS - JURUSAN - WALI KELAS -
+  public function getAllKelasJurusanWali()
+  {
+    $query = "SELECT `id_kelas`, `jenjang_kelas`, `nama_jurusan`, `urutan_kelas`, `nama_guru`  FROM " . $this->table . " k
+    INNER JOIN `jurusan` j USING(id_jurusan)
+    INNER JOIN `guru` g ON k.`wali_kelas`=g.`id_guru`";
+
+    $this->db->query($query);
+    return $this->db->resultSet();
   }
 }

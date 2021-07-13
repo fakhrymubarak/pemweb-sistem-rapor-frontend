@@ -24,7 +24,7 @@
               <a href="#"><i class="fa fa-file-text"></i> <span>Daftar Kelas</span> <i class="fa fa-angle-right arrow"></i></a>
               <ul class="child-nav">
                 <li><a href="<?= BASE_URL; ?>admin/tambahKelas"><i class="fa fa-bars"></i> <span>Buat Kelas Baru</span></a></li>
-                <li><a href="<?= BASE_URL; ?>admin/buatKelas"><i class="fa fa fa-server"></i> <span>Kelola Kelas</span></a></li>
+                <li><a href="<?= BASE_URL; ?>admin/kelas"><i class="fa fa fa-server"></i> <span>Kelola Kelas</span></a></li>
 
               </ul>
             </li>
