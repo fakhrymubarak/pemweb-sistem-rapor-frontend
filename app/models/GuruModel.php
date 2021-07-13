@@ -66,7 +66,7 @@ class GuruModel
     `nip`=:nip,
     `username`=:username,
     `password`=:pass,
-    `isWaliKelas`=:isWaliKelas
+    `isWaliKelas`=:isWaliKelas,
     `isActive`=:isActive
     WHERE `id_guru`=:idGuru;";
 

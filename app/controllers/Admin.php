@@ -448,54 +448,52 @@ class Admin extends Controller
       header("Location: " . BASE_URL . "admin/kelas/failed");
       exit;
     }
-
-    // @TODO direct to spesific view
   }
 
 
 
   // === TEACHER SECTION - CRUD ===
 
-  public function guru()
+  public function guru($status = "")
   {
     $this->checkHasNotLogin();
 
-    $data = $this->model('GuruModel')->getAllGuru();
-    var_dump($data);
+    $data['status'] = $status;
+    $data['listGuru'] = $this->model('GuruModel')->getAllGuru();
 
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/guru/guru', $data);
+    $this->view('templates/footer/footer');
   }
 
-  public function tambahGuru()
+  public function tambahGuru($isSuccess = "")
   {
     $this->checkHasNotLogin();
 
-    // @TODO set view
+    $this->callHeader();
+    $this->view('admin/guru/tambahGuru', $isSuccess);
+    $this->view('templates/footer/footer');
   }
 
   public function runTambahGuru()
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $nip = $_POST[''];
-    $nama = $_POST[''];
-    $username = $_POST[''];
-    $password = password_hash($_POST[''], PASSWORD_DEFAULT);
-    $isWaliKelas = $_POST[''];
-    $isActive = $_POST[''];
-
-    // $nip = "123123123";
-    // $nama = "dummyGuru";
-    // $username = "guru";
-    // $password = password_hash("secretGuru", PASSWORD_DEFAULT);
-    // $isWaliKelas = "1";
-    // $isActive = "1";
+    $nip = $_POST['nip'];
+    $nama = $_POST['nama'];
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $isWaliKelas = $_POST['isWaliKelas'];
+    $isActive = $_POST['isActive'];
 
     $data = $this->model('GuruModel')->insertGuru($nama, $nip, $username, $password, $isWaliKelas, $isActive);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/tambahGuru/true");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/tambahGuru/false");
+      exit;
+    }
   }
 
   public function updateGuru($idGuru)
@@ -503,26 +501,31 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('GuruModel')->getGuruById($idGuru);
-    var_dump($data);
-    // @TODO set view
+
+    $this->callHeader();
+    $this->view('admin/guru/updateGuru', $data);
+    $this->view('templates/footer/footer');
   }
 
   public function runUpdateGuru($idGuru)
   {
     $this->checkHasNotLogin();
 
-    // @TODO set post
-    $nip = $_POST[''];
-    $nama = $_POST[''];
-    $username = $_POST[''];
-    $password = $_POST[''];
-    $isWaliKelas = $_POST[''];
-    $isActive = $_POST[''];
+    $nip = $_POST['nip'];
+    $nama = $_POST['nama'];
+    $username = $_POST['username'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $isWaliKelas = $_POST['isWaliKelas'];
+    $isActive = $_POST['isActive'];
 
     $data = $this->model('GuruModel')->updateGuru($idGuru, $nama, $nip, $username, $password, $isWaliKelas, $isActive);
-    var_dump($data);
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/guru/edited");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/guru/failed");
+      exit;
+    }
   }
 
   public function runDeleteGuru($idGuru)
@@ -531,10 +534,13 @@ class Admin extends Controller
     $this->checkHasNotLogin();
 
     $data = $this->model('GuruModel')->deleteGuru($idGuru);
-    var_dump($data);
-    die;
-
-    // @TODO direct to spesific view
+    if ($data == 1) {
+      header("Location: " . BASE_URL . "admin/guru/deleted");
+      exit;
+    } else {
+      header("Location: " . BASE_URL . "admin/guru/failed");
+      exit;
+    }
   }
 
 
