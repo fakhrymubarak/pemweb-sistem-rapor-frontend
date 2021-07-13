@@ -18,10 +18,10 @@ class Siswa extends Controller
   {
     $data['kelas'] = $this->model('KelasModel')->getAllKelasWithJurusan();
     $data['founded'] = $founded;
-    $this->view('templates/header');
-    $this->view('templates/headerStudent');
+    $this->view('templates/header/header');
+    $this->view('templates/header/headerStudent');
     $this->view('siswa/index', $data);
-    $this->view('templates/footer');
+    $this->view('templates/footer/footer');
   }
 
   public function runLoginRapor()
@@ -48,9 +48,10 @@ class Siswa extends Controller
       $data["siswa"] = $this->model('SiswaModel')->getSiswaWithJurusanKelasById($nis);
       $data["listRapor"] = $this->model('RaporModel')->getFullRaporByNis($nis);
 
-      $this->view('templates/header');
+      $this->view('templates/header/header');
+      $this->view('templates/header/headerStudent');
       $this->view('siswa/rapor', $data);
-      $this->view('templates/footer');
+      $this->view('templates/footer/footer');
     }
   }
 }
