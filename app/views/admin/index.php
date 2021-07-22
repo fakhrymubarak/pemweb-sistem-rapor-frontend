@@ -35,7 +35,7 @@ $founded = $data['founded'];
                       </div>
 
                       <?php if ($founded == false) { ?>
-                        <div class="p-3 mb-2 bg-danger text-white text-center">Username atau Password Salah!</div>
+                        <div class="p-3 mb-2 bg-danger text-white text-center">Username atau Password Tidak Ditemukan</div>
                       <?php } ?>
 
                       <div class="form-group mt-20">
